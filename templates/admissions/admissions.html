@@ -1,0 +1,224 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. HEADER SECTION -->
+<div class="section-padding pb-4 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Join Our Academy</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">Admissions & Fees</h1>
+                <!-- Dynamic Intro Text -->
+                {% if intro_content %}
+                    <div class="lead text-muted w-75 mx-auto">
+                        {{ intro_content.content|safe }}
+                    </div>
+                {% else %}
+                    <p class="lead text-muted w-75 mx-auto">We welcome students to join our structured Islamic environment. Registration is simple and free.</p>
+                {% endif %}
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-padding pt-4 bg-white">
+    <div class="container">
+        <div class="row g-5">
+            
+            <!-- 2. FEES & INFO COLUMN (Sticky on Desktop) -->
+            <div class="col-lg-4 order-lg-2">
+                <div class="position-sticky" style="top: 100px;">
+                    
+                    <!-- Fee Structure Card -->
+                    <div class="card border-0 shadow-sm mb-4 overflow-hidden" data-aos="fade-left">
+                        <div class="card-header bg-secondary text-white p-4 border-0">
+                            <h4 class="h5 mb-0 fw-bold"><i class="fas fa-tags me-2 text-accent"></i> Academy Fees</h4>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                {% for cost in costs %}
+                                <li class="list-group-item p-4 d-flex justify-content-between align-items-center border-bottom-0 border-top">
+                                    <div class="me-3">
+                                        <h6 class="fw-bold text-secondary mb-1">{{ cost.title }}</h6>
+                                        {% if cost.description %}
+                                        <small class="text-muted d-block lh-sm">{{ cost.description }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <span class="badge bg-light-mint text-primary rounded-pill px-3 py-2 fw-bold" style="font-size: 0.9rem;">
+                                        {{ cost.amount }}
+                                    </span>
+                                </li>
+                                {% empty %}
+                                <li class="list-group-item p-4 text-muted text-center">Fees are subject to change. Contact us for current rates.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card-footer bg-light p-3 border-0 text-center">
+                            <small class="text-muted fst-italic"><i class="fas fa-info-circle me-1"></i> Fees subject to change with notice.</small>
+                        </div>
+                    </div>
+
+                    <!-- Help Box -->
+                    <div class="alert bg-light-mint border-0 rounded-4 p-4 shadow-sm" data-aos="fade-left" data-aos-delay="100">
+                        <h5 class="fw-bold text-secondary mb-2"><i class="fas fa-headset me-2 text-primary"></i> Need Assistance?</h5>
+                        <p class="small text-muted mb-3">If you have questions about the application process or do not hear from us within 2 weeks:</p>
+                        <a href="tel:{{ site_config.head_teacher_phone }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-bold">
+                            Call Head Teacher
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. APPLICATION FORM COLUMN -->
+            <div class="col-lg-8 order-lg-1">
+                {% if site_config.use_external_admission_form and site_config.external_admission_url %}
+                
+                <!-- EXTERNAL LINK VIEW (New Requirement) -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden" data-aos="fade-up">
+                    <div class="card-header bg-primary text-white p-4 border-0 text-center">
+                        <h3 class="h4 mb-0 fw-bold text-white">School Admission</h3>
+                    </div>
+                    
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4 text-muted">
+                            <p class="lead">Thank you for your interest in {{ site_config.site_name }}.</p>
+                            <p>To register yourself or your child, please complete the online registration form by clicking on the link below.</p>
+                        </div>
+
+                        <!-- DYNAMIC LINK BUTTON -->
+                        <div class="my-5">
+                            <a href="{{ site_config.external_admission_url }}" target="_blank" class="btn btn-warning btn-lg rounded-pill px-5 py-3 shadow-sm fw-bold text-white">
+                                Click Here to Register <i class="fas fa-external-link-alt ms-2"></i>
+                            </a>
+                            <p class="small text-muted mt-3">
+                                <i class="fas fa-info-circle me-1"></i> 
+                                Then add <strong>New Student Application</strong> to your basket and checkout.<br>
+                                There is no cost for submitting applications.
+                            </p>
+                        </div>
+
+                        <hr class="opacity-10 my-4">
+
+                        <div class="text-start bg-light-mint p-4 rounded-4 border border-light">
+                            <h6 class="fw-bold text-secondary mb-2">What happens next?</h6>
+                            <p class="small text-muted mb-3">
+                                We will get in touch with further details once we have reviewed your submission.
+                            </p>
+                            
+                            <p class="small text-muted mb-0">
+                                If you do not hear from us within two weeks, please contact us by calling:
+                            </p>
+                            <ul class="small text-muted mt-2 mb-0">
+                                <li><strong>{{ site_config.head_teacher_name }}</strong> (Headteacher): <a href="tel:{{ site_config.head_teacher_phone }}" class="text-primary fw-bold">{{ site_config.head_teacher_phone }}</a></li>
+                                <li><strong>{{ site_config.admin_contact_name }}</strong> (Accounts): <a href="tel:{{ site_config.admin_contact_phone }}" class="text-primary fw-bold">{{ site_config.admin_contact_phone }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+
+                    <!-- BUILT-IN DJANGO FORM VIEW -->
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" data-aos="fade-up">
+                        <div class="card-header bg-primary text-white p-4 border-0 text-center">
+                            <h3 class="h4 mb-0 fw-bold text-white">New Student Application</h3>
+                            <p class="mb-0 text-white-50 small">Please complete all fields below</p>
+                        </div>
+                        
+                        <div class="card-body p-4 p-md-5">
+                            <form method="post">
+                                {% csrf_token %}
+                                
+                                <!-- Section: Child Details -->
+                                <div class="mb-5">
+                                    <h5 class="text-secondary border-bottom pb-2 mb-4 fw-bold">
+                                        <span class="bg-white pe-3">1. Child's Information</span>
+                                    </h5>
+                                    
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">First Name</label>
+                                            {{ form.child_first_name }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Last Name</label>
+                                            {{ form.child_last_name }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Date of Birth</label>
+                                            {{ form.dob }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Gender</label>
+                                            {{ form.gender }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section: Parent Details -->
+                                <div class="mb-5">
+                                    <h5 class="text-secondary border-bottom pb-2 mb-4 fw-bold">
+                                        <span class="bg-white pe-3">2. Parent / Guardian Details</span>
+                                    </h5>
+
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Full Name</label>
+                                            {{ form.parent_name }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Email Address</label>
+                                            {{ form.email }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Phone Number</label>
+                                            {{ form.phone }}
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Full Home Address</label>
+                                            {{ form.address }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section: Additional Info -->
+                                <div class="mb-5">
+                                    <h5 class="text-secondary border-bottom pb-2 mb-4 fw-bold">
+                                        <span class="bg-white pe-3">3. Additional Information</span>
+                                    </h5>
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <label class="form-label fw-bold small text-uppercase text-muted">Medical Notes / Special Requirements</label>
+                                            {{ form.notes }}
+                                            <div class="form-text text-muted">Please list any allergies, medical conditions, or learning requirements.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Action -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold text-uppercase shadow-md">
+                                        Submit Application
+                                    </button>
+                                    <p class="text-center text-muted small mt-2">
+                                        <i class="fas fa-lock me-1"></i> Your data is processed securely. There is no cost to apply.
+                                    </p>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

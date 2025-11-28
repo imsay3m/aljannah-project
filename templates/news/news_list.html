@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="section-padding pb-0 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">News & Updates</h1>
+                <p class="lead text-muted w-75 mx-auto">Stay informed about the latest happenings at Al Jannah Academy.</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-padding pt-4 bg-light-mint">
+    <div class="container">
+        <div class="row g-4">
+            {% for post in posts %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="hover-card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white d-flex flex-column">
+                    <!-- Image -->
+                    {% if post.image %}
+                    <div style="height: 220px; overflow: hidden;" class="position-relative">
+                        <img src="{{ post.image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s;" alt="{{ post.title }}">
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-white text-secondary shadow-sm">{{ post.date|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="bg-light-mint d-flex align-items-center justify-content-center position-relative" style="height: 220px;">
+                        <i class="far fa-newspaper fa-3x text-primary opacity-25"></i>
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-white text-secondary shadow-sm">{{ post.date|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Content -->
+                    <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                        <h5 class="h5 fw-bold text-secondary mb-3 line-clamp-2">
+                            <a href="{% url 'news_detail' post.slug %}" class="text-decoration-none text-secondary">{{ post.title }}</a>
+                        </h5>
+                        <p class="text-muted small mb-4 flex-grow-1">{{ post.content|striptags|truncatechars:100 }}</p>
+                        
+                        <a href="{% url 'news_detail' post.slug %}" class="btn btn-outline-primary btn-sm rounded-pill align-self-start fw-bold">Read Article</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-light d-inline-block px-5">No news available at the moment.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

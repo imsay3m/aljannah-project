@@ -1,0 +1,169 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. HEADER -->
+<div class="section-padding pb-4 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Get in Touch</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">Contact Us</h1>
+                <p class="lead text-muted w-75 mx-auto">We are here to answer your questions. Reach out to us via phone, email, or visit us on Saturdays.</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-padding pt-4 bg-white">
+    <div class="container">
+        <div class="row g-5">
+            
+            <!-- 2. CONTACT INFO CARD (Left) -->
+            <div class="col-lg-5" data-aos="fade-right">
+                <div class="text-white p-5 rounded-4 h-100 position-relative overflow-hidden" 
+                    style="background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); box-shadow: 0 20px 40px rgba(18, 104, 122, 0.2);">
+                    
+                    <!-- Background Pattern -->
+                    <div class="position-absolute top-0 end-0 opacity-10 p-4 d-none d-md-block">
+                        <i class="fas fa-map-marker-alt fa-10x text-white"></i>
+                    </div>
+
+                    <div class="position-relative z-1">
+                        <h3 class="h4 fw-bold mb-4 text-white">Contact Information</h3>
+                        
+                        <div class="d-flex flex-column gap-4">
+                            
+                            <!-- 1. Location -->
+                            <div class="d-flex gap-3 align-items-center">
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm" style="width: 45px; height: 45px;">
+                                    <i class="fas fa-location-arrow text-primary small"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-white">Location</h6>
+                                    <p class="mb-0 text-white-50 small lh-base">{{ site_config.address }}</p>
+                                </div>
+                            </div>
+
+                            <hr class="border-white opacity-25 my-1">
+
+                            <!-- 2. Admissions & Payments -->
+                            <div class="d-flex gap-3 align-items-start">
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm" style="width: 45px; height: 45px;">
+                                    <i class="fas fa-file-invoice-dollar text-primary small"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-white">Admissions & Payments</h6>
+                                    <p class="mb-0 text-white-50 small fw-bold">{{ site_config.admin_contact_name }}</p>
+                                    
+                                    <div class="mt-1">
+                                        <a href="tel:{{ site_config.admin_contact_phone }}" class="text-white small text-decoration-none hover-warning d-block">
+                                            <i class="fas fa-phone me-2 opacity-50"></i>{{ site_config.admin_contact_phone }}
+                                        </a>
+                                    </div>
+                                    {% if site_config.admin_contact_email %}
+                                    <div>
+                                        <a href="mailto:{{ site_config.admin_contact_email }}" class="text-white small text-decoration-none hover-warning text-break">
+                                            <i class="fas fa-envelope me-2 opacity-50"></i>{{ site_config.admin_contact_email }}
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <hr class="border-white opacity-25 my-1">
+
+                            <!-- 3. Head Teacher -->
+                            <div class="d-flex gap-3 align-items-start">
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm" style="width: 45px; height: 45px;">
+                                    <i class="fas fa-user-graduate text-primary small"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-white">Head Teacher</h6>
+                                    <p class="mb-0 text-white-50 small fw-bold">{{ site_config.head_teacher_name }}</p>
+                                    
+                                    <div class="mt-1">
+                                        <a href="tel:{{ site_config.head_teacher_phone }}" class="text-white small text-decoration-none hover-warning d-block">
+                                            <i class="fas fa-phone me-2 opacity-50"></i>{{ site_config.head_teacher_phone }}
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="mailto:{{ site_config.email }}" class="text-white small text-decoration-none hover-warning text-break">
+                                            <i class="fas fa-envelope me-2 opacity-50"></i>{{ site_config.email }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="border-white opacity-25 my-1">
+
+                            <!-- 4. Opening Hours (Restored) -->
+                            <div class="d-flex gap-3 align-items-center">
+                                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm" style="width: 45px; height: 45px;">
+                                    <i class="fas fa-clock text-primary small"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-white">Academy Hours</h6>
+                                    <p class="mb-0 text-white-50 small">{{ site_config.term_timings }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- 5. Map Embed (Restored) -->
+                        {% if site_config.google_maps_embed %}
+                        <div class="mt-5 rounded-3 overflow-hidden shadow-sm border border-white border-opacity-25" style="height: 200px;">
+                            {{ site_config.google_maps_embed|safe }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. CONTACT FORM (Right) -->
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border h-100">
+                    <h3 class="h4 fw-bold text-secondary mb-2">Send us a Message</h3>
+                    <p class="text-muted mb-4 small">We usually respond within 24-48 hours.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Full Name</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Email Address</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Phone Number</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Subject</label>
+                                {{ form.subject }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Message</label>
+                                {{ form.message }}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 w-100 shadow-sm">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

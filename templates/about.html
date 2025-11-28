@@ -1,0 +1,178 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. PAGE HEADER -->
+<div class="section-padding pb-0 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Who We Are</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">About Al Jannah Academy</h1>
+                <p class="lead text-muted w-75 mx-auto">{{ site_config.tagline }}</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. HISTORY & VALUES SECTION -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row g-5">
+            <!-- History Column -->
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="hover-card p-5 h-100 shadow-sm border-0 position-relative overflow-hidden" style="border-top: 5px solid var(--primary) !important;">
+                    <div class="position-absolute top-0 end-0 p-4 opacity-10">
+                        <i class="fas fa-history fa-5x text-primary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold text-secondary mb-4">Our History & Approach</h3>
+                    {% if history %}
+                        <div class="text-muted lh-lg">
+                            {{ history.content|safe }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Information about our history is being updated.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Values Column -->
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="hover-card p-5 h-100 shadow-sm border-0 position-relative overflow-hidden" style="border-top: 5px solid var(--secondary) !important;">
+                    <div class="position-absolute top-0 end-0 p-4 opacity-10">
+                        <i class="fas fa-heart fa-5x text-secondary"></i>
+                    </div>
+                    <h3 class="h4 fw-bold text-secondary mb-4">Our Core Values</h3>
+                    {% if values %}
+                        <div class="text-muted lh-lg">
+                            {{ values.content|safe }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Information about our values is being updated.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. STANDARDS & CREDENTIALS (Grid) -->
+<section class="py-5 position-relative overflow-hidden" style="background-color: var(--secondary);">
+    
+    <!-- CHANGED: Replaced White Glow with Teal/Dark Glows for better contrast -->
+    
+    <!-- Top Right: Subtle Teal Highlight (Matches brand primary) -->
+    <div class="position-absolute top-0 end-0 rounded-circle opacity-25" 
+         style="width: 500px; height: 500px; background-color: var(--primary); filter: blur(120px); transform: translate(30%, -40%); pointer-events: none;">
+    </div>
+    
+    <!-- Bottom Left: Deep Shadow for depth -->
+    <div class="position-absolute bottom-0 start-0 rounded-circle opacity-50" 
+         style="width: 400px; height: 400px; background-color: #0c4a57; filter: blur(100px); transform: translate(-30%, 40%); pointer-events: none;">
+    </div>
+
+    <!-- Subtle Texture Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-5" 
+         style="background-image: radial-gradient(var(--accent) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none;">
+    </div>
+
+    <div class="container position-relative z-1">
+        <div class="text-center mb-5">
+            <h2 class="h3 fw-bold text-white">Our Standards of Excellence</h2>
+            <p class="text-white-50">Ensuring a safe and professional environment for every child.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Item 1 -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-white rounded-4 p-4 text-center h-100 shadow-lg border-0" style="transition: transform 0.3s;">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-light-mint text-primary rounded-circle mb-3" style="width: 70px; height: 70px; font-size: 1.8rem;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary mb-1">DBS Checked</h5>
+                    <small class="text-muted">Fully vetted staff</small>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white rounded-4 p-4 text-center h-100 shadow-lg border-0">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-light-mint text-primary rounded-circle mb-3" style="width: 70px; height: 70px; font-size: 1.8rem;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary mb-1">Safeguarding</h5>
+                    <small class="text-muted">Certified Training</small>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-white rounded-4 p-4 text-center h-100 shadow-lg border-0">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-light-mint text-primary rounded-circle mb-3" style="width: 70px; height: 70px; font-size: 1.8rem;">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary mb-1">Qualified (QTS)</h5>
+                    <small class="text-muted">Experienced Teachers</small>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                <div class="bg-white rounded-4 p-4 text-center h-100 shadow-lg border-0">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-light-mint text-primary rounded-circle mb-3" style="width: 70px; height: 70px; font-size: 1.8rem;">
+                        <i class="fas fa-first-aid"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary mb-1">First Aid</h5>
+                    <small class="text-muted">Safety Priority</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. MEET THE TEAM -->
+<section class="section-padding bg-light-mint">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold text-secondary">Meet Our Team</h2>
+            <div class="mx-auto mt-3" style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+        </div>
+
+        <div class="row g-4">
+            {% for member in staff %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <!-- Added margin-top to separate cards from the one above -->
+                <div class="hover-card h-100 bg-white shadow-sm border-0 text-center position-relative" style="border-radius: 20px; overflow: visible; margin-top: 60px;">
+                    
+                    <!-- Avatar Floating Top -->
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <div class="rounded-circle p-1 bg-white shadow-sm" style="width: 120px; height: 120px;">
+                            {% if member.image %}
+                            <img src="{{ member.image.url }}" alt="{{ member.name }}" class="rounded-circle w-100 h-100" style="object-fit: cover; border: 3px solid var(--bg-light-mint);">
+                            {% else %}
+                            <div class="w-100 h-100 rounded-circle bg-light-mint d-flex align-items-center justify-content-center border border-3 border-light">
+                                <i class="fas fa-user fa-3x text-primary opacity-50"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- FIXED: Added explicit padding-top: 80px to clear the 60px of image inside the card -->
+                    <div class="card-body px-4 pb-4" style="padding-top: 80px;">
+                        <h4 class="h5 fw-bold text-secondary mb-1">{{ member.name }}</h4>
+                        <p class="text-primary fw-bold small text-uppercase letter-spacing-1 mb-3">{{ member.role }}</p>
+                        <hr class="w-25 mx-auto border-secondary opacity-10 mb-3">
+                        <p class="text-muted small mb-0">{{ member.bio|safe }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">Team details coming soon.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

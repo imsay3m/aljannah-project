@@ -1,0 +1,113 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. HEADER SECTION -->
+<div class="section-padding pb-4 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Rules & Regulations</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">Policies & Schedule</h1>
+                <p class="lead text-muted w-75 mx-auto">Ensuring a structured, safe, and productive learning environment for every student.</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-padding pt-4 bg-light-mint">
+    <div class="container">
+        <div class="row g-5">
+            
+            <!-- 2. SCHEDULE COLUMN (Right Side / Top on Mobile) -->
+            <div class="col-lg-5 order-lg-2">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden position-sticky" style="top: 100px;" data-aos="fade-left">
+                    <div class="card-header bg-secondary text-white p-4 border-0 text-center">
+                        <h4 class="h5 mb-0 fw-bold font-head"><i class="far fa-clock me-2 text-accent"></i> Daily Time Plan</h4>
+                        <small class="text-white-50">Saturdays (Term Time Only)</small>
+                    </div>
+                    
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-4 py-3 text-secondary text-uppercase small letter-spacing-1">Time</th>
+                                        <th class="pe-4 py-3 text-secondary text-uppercase small letter-spacing-1 text-end">Activity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for slot in schedule %}
+                                    <tr>
+                                        <td class="ps-4 py-3 align-middle">
+                                            {% if slot.start_time %}
+                                                <span class="fw-bold text-primary font-head h6 mb-0">{{ slot.start_time|time:"H:i" }}</span>
+                                                {% if slot.end_time %}
+                                                <span class="text-muted small ms-1">- {{ slot.end_time|time:"H:i" }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <!-- Fallback if no start time -->
+                                                <span class="text-muted small fst-italic">-- : --</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="pe-4 py-3 align-middle text-end fw-bold text-secondary">
+                                            {{ slot.activity }}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="2" class="text-center py-4 text-muted">Schedule currently being updated.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white p-3 text-center border-top">
+                        <small class="text-muted"><i class="fas fa-mosque me-1 text-primary"></i> Timings adjust for Salaat</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. POLICIES COLUMN (Left Side) -->
+            <div class="col-lg-7 order-lg-1">
+                <!-- Intro Text -->
+                {% if intro %}
+                <div class="bg-white p-4 rounded-4 shadow-sm mb-5 border-start border-4 border-primary" data-aos="fade-up">
+                    <div class="text-muted lh-lg">
+                        {{ intro.content|safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Policies List -->
+                <div class="d-flex flex-column gap-4">
+                    {% for policy in policies %}
+                    <div class="hover-card bg-white p-4 p-md-5 rounded-4 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box bg-light-mint text-primary mb-0 me-3" style="width: 50px; height: 50px; font-size: 1.2rem; min-width: 50px;">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h3 class="h4 fw-bold text-secondary mb-0">{{ policy.title }}</h3>
+                        </div>
+                        
+                        <div class="text-muted ps-lg-5 ms-2 lh-lg">
+                            {{ policy.content|safe }}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-light">Policies are being updated.</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

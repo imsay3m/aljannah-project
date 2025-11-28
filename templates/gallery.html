@@ -1,0 +1,60 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="section-padding pb-0 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Our Memories</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">Photo Gallery</h1>
+                <p class="lead text-muted w-75 mx-auto">Glimpses of student activities, events, and life at Al Jannah Academy.</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row g-4">
+            {% for album in albums %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <a href="{% url 'gallery_detail' album.pk %}" class="text-decoration-none">
+                    <div class="hover-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative group">
+                        <!-- Image Container -->
+                        <div class="bg-light-mint d-flex align-items-center justify-content-center overflow-hidden" style="height: 280px;">
+                            {% if album.cover_image %}
+                            <img src="{{ album.cover_image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.6s ease;" alt="{{ album.title }}" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                            {% else %}
+                            <i class="fas fa-images fa-3x text-primary opacity-25"></i>
+                            {% endif %}
+                            
+                            <!-- Overlay -->
+                            <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 transition-opacity d-flex align-items-center justify-content-center" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.3'" onmouseout="this.style.opacity='0'">
+                                <span class="btn btn-light rounded-circle"><i class="fas fa-plus"></i></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="card-body p-4 text-center bg-white relative z-1">
+                            <h5 class="fw-bold text-secondary mb-1">{{ album.title }}</h5>
+                            <small class="text-primary fw-bold text-uppercase letter-spacing-1" style="font-size: 0.7rem;">{{ album.images.count }} Photos</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted py-5">
+                <div class="alert alert-light d-inline-block px-5">No albums created yet.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

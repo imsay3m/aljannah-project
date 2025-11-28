@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Client Resets */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        
+        /* Main Styles */
+        body { margin: 0; padding: 0; background-color: #eef6f6; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; }
+        .wrapper { width: 100%; table-layout: fixed; background-color: #eef6f6; padding-bottom: 40px; }
+        .card { background-color: #ffffff; margin: 0 auto; width: 100%; max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        
+        /* Header */
+        .header-top { background-color: #34A89E; height: 8px; width: 100%; }
+        .header-main { background-color: #12687A; padding: 30px; text-align: center; border-bottom: 1px solid #0e5260; }
+        
+        /* Sections */
+        .section-header { color: #12687A; font-size: 16px; font-weight: bold; border-bottom: 2px solid #34A89E; padding-bottom: 5px; margin-bottom: 15px; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Data Tables */
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .info-table td { padding: 10px 0; vertical-align: top; border-bottom: 1px solid #f9f9f9; }
+        .info-label { color: #888; font-size: 13px; width: 130px; font-weight: 500; }
+        .info-val { color: #333; font-size: 15px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <br>
+        <table class="card" align="center" cellspacing="0" cellpadding="0">
+            <!-- Colored Top Bar -->
+            <tr><td class="header-top"></td></tr>
+            
+            <!-- Header -->
+            <tr>
+                <td class="header-main">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 22px; letter-spacing: 1px;">Al Jannah Academy</h1>
+                    <p style="margin: 5px 0 0; color: #6CC3E8; font-weight: bold; font-size: 18px;">New Book Order Request</p>
+                </td>
+            </tr>
+            
+            <!-- Content -->
+            <tr>
+                <td style="padding: 40px 30px;">
+                    
+                    <p style="margin-top: 0; color: #555;"><strong>Assalamu Alaikum,</strong></p>
+                    <p style="color: #666; line-height: 1.5;">A parent has submitted a request to purchase books directly from the Academy. Please find the order details below.</p>
+                    
+                    <br>
+
+                    <!-- Student Details Section -->
+                    <div style="text-align: left;">
+                        <span class="section-header">Student Details</span>
+                    </div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Full Name:</td>
+                            <td class="info-val" style="font-size: 18px; color: #12687A;">{{ student_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Class Level:</td>
+                            <td class="info-val">
+                                <span style="background-color: #e0f7fa; color: #006064; padding: 4px 8px; border-radius: 4px; font-size: 14px;">
+                                    {{ student_class }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Order Reason:</td>
+                            <td class="info-val">{{ reason }}</td>
+                        </tr>
+                    </table>
+
+                    <!-- Special Logic for "Other Reason" -->
+                    {% if other_reason_details %}
+                    <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+                        <strong style="color: #856404; display: block; font-size: 11px; margin-bottom: 5px; text-transform: uppercase;">Specific Reason Provided:</strong>
+                        <span style="color: #333; font-size: 14px;">{{ other_reason_details }}</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Parent Details Section -->
+                    <div style="text-align: left; margin-top: 10px;">
+                        <span class="section-header">Parent Contact</span>
+                    </div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Parent Name:</td>
+                            <td class="info-val">{{ parent_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Mobile:</td>
+                            <td class="info-val">
+                                <a href="tel:{{ parent_mobile }}" style="color: #333; text-decoration: none; border-bottom: 1px dotted #ccc;">{{ parent_mobile }}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Email:</td>
+                            <td class="info-val">
+                                <a href="mailto:{{ parent_email }}" style="color: #34A89E; text-decoration: none; font-weight: bold;">{{ parent_email }}</a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer Action Note -->
+                    <div style="background-color: #F4FBFB; border: 1px dashed #34A89E; padding: 15px; border-radius: 8px; text-align: center; margin-top: 10px;">
+                        <p style="margin: 0; font-size: 13px; color: #12687A;">
+                            <strong>Action Required:</strong> Please contact the parent to arrange payment (Cash/Card) and book collection within one week.
+                        </p>
+                    </div>
+
+                </td>
+            </tr>
+            
+            <!-- Footer -->
+            <tr>
+                <td style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;">
+                    <p style="font-size: 11px; color: #999; margin: 0;">
+                        &copy; {% now "Y" %} Al Jannah Academy.<br>
+                        This is an automated system notification.
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

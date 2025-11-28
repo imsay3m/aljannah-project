@@ -1,0 +1,386 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- 0. ANNOUNCEMENT BAR (Minimal & Sleek) -->
+{% if announcements %}
+<div class="announcement-bar py-2 position-relative z-3">
+    <div class="container">
+        <!-- ADDED: flex-nowrap to prevent stacking, removed typo 'wrap-nowrap' -->
+        <div class="row align-items-center gx-2 flex-nowrap">
+            
+            <!-- 1. Badge -->
+            <div class="col-auto">
+                <span class="badge rounded-pill px-3 py-1 fw-bold text-uppercase letter-spacing-1 d-flex align-items-center gap-2">
+                    <i class="fas fa-bullhorn text-warning"></i> 
+                    <span class="d-none d-sm-inline">Notice</span>
+                </span>
+            </div>
+
+            <!-- 2. Carousel Content -->
+            <!-- ADDED: 'min-width: 0' - CRITICAL for text-truncate to work in Flexbox -->
+            <div class="col overflow-hidden position-relative" style="min-width: 0;">
+                <div id="announcementCarousel" class="carousel slide vertical" data-bs-ride="carousel" data-bs-interval="4000">
+                    <div class="carousel-inner">
+                        {% for ann in announcements %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="d-flex align-items-center justify-content-center announcement-fade text-nowrap w-100">
+                                <strong class="me-2 d-none d-sm-inline text-warning text-shadow">{{ ann.title }}:</strong>
+                                <span class="text-white text-truncate" 
+                                      style="cursor: help; max-width: 100%;"
+                                      {% if ann.content|length > 35 %}
+                                      data-bs-toggle="tooltip" 
+                                      data-bs-placement="bottom" 
+                                      title="{{ ann.content }}"
+                                      {% endif %}>
+                                    {{ ann.content }}
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Controls -->
+            {% if announcements.count > 1 %}
+            <div class="col-auto d-flex gap-1">
+                <button class="btn btn-sm p-1 text-white-50" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev" style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-chevron-left" style="font-size: 0.7rem;"></i>
+                </button>
+                <button class="btn btn-sm p-1 text-white-50" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next" style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+                </button>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- 1. HERO SECTION -->
+<section class="section-padding position-relative d-flex align-items-center" style="background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%); min-height: 85vh;">
+    
+    <!-- Abstract Background Pattern (SVG) -->
+    <div class="position-absolute top-0 end-0 h-100 w-50 d-none d-lg-block opacity-25" style="pointer-events: none; overflow: hidden;">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="h-100 w-100">
+            <path fill="#34A89E" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.2,-19.2,95.8,-5.2C93.5,8.9,82,22.1,70.9,33.4C59.8,44.7,49.1,54.1,37.2,62.8C25.3,71.5,12.2,79.5,-2.1,83.1C-16.4,86.7,-31.8,85.9,-45.4,78.5C-59,71.1,-70.8,57.1,-79.3,41.9C-87.8,26.7,-93.1,10.3,-91.1,-5.1C-89.1,-20.5,-79.8,-34.9,-69.3,-47.4C-58.8,-59.9,-47.1,-70.5,-34.1,-78.3C-21.1,-86.1,-6.8,-91.1,3.9,-97.9L14.6,-104.7" transform="translate(100 100) scale(1.1)" />
+        </svg>
+    </div>
+
+    <div class="container position-relative z-2">
+        <div class="row align-items-center">
+            <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                <span class="badge-soft mb-4 d-inline-block text-uppercase letter-spacing-1">
+                    <i class="fas fa-star me-2"></i> Admissions Open
+                </span>
+                
+                {% if welcome_content %}
+                    <h1 class="display-4 fw-bold text-secondary mb-4">{{ welcome_content.title }}</h1>
+                    <div class="lead text-muted mb-5 w-85 fs-5">
+                        {{ welcome_content.content|safe }}
+                    </div>
+                {% else %}
+                    <h1 class="display-4 fw-bold text-secondary mb-4">Nurturing Hearts,<br><span class="text-primary">Inspiring Minds.</span></h1>
+                    <p class="lead text-muted mb-5 w-85 fs-5">A structured and well-equipped academy providing educational needs and an Islamic environment for the next generation.</p>
+                {% endif %}
+
+                <div class="d-flex gap-3">
+                    <a href="{% url 'admissions' %}" class="btn btn-primary btn-lg px-5 shadow-lg">
+                        Apply Now <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="{% url 'about' %}" class="btn btn-outline-primary btn-lg px-4">
+                        Explore More
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-5 d-none d-lg-block ps-5" data-aos="fade-left" data-aos-delay="200">
+                <!-- Decorative Cards -->
+                <div class="card border-0 shadow-lg p-3 bg-white rounded-4" style="transform: rotate(-3deg); margin-bottom: -40px; position: relative; z-index: 1;">
+                    <div class="card-body p-4 d-flex align-items-center gap-4">
+                        <div class="icon-box bg-light-mint text-primary mb-0" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                            <i class="fas fa-quran"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Hifdh & Quran</h5>
+                            <small class="text-muted">Qualified Teachers</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-lg p-3 bg-white rounded-4" style="transform: rotate(2deg); margin-left: 40px; position: relative; z-index: 2;">
+                <div class="card-body p-4 d-flex align-items-center gap-4">
+                    <!-- Icon: Mosque (Sky Blue color) -->
+                    <div class="icon-box bg-light-mint text-secondary mb-0" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Islamic Studies</h5>
+                        <small class="text-muted">Fiqh, Seerah & Akhlaq</small>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. SERVICES SECTION -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <span class="text-primary text-uppercase fw-bold small letter-spacing-1">Our Expertise</span>
+            <h2 class="display-6 fw-bold mt-2">What We Offer</h2>
+            <div class="mx-auto mt-3" style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+        </div>
+        
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <div class="hover-card h-100 border-0 shadow-sm bg-white overflow-hidden rounded-4 text-center">
+                    
+                    <!-- Service Image -->
+                    <div style="height: 200px; overflow: hidden;" class="position-relative w-100 bg-light-mint d-flex align-items-center justify-content-center">
+                        {% if service.image %}
+                        <img src="{{ service.image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" alt="{{ service.title }}" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                        {% else %}
+                        <!-- Fallback if no image uploaded yet -->
+                        <i class="fas fa-image fa-3x text-primary opacity-25"></i>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content -->
+                    <div class="card-body p-4">
+                        <h4 class="h5 fw-bold mb-3 text-secondary">{{ service.title }}</h4>
+                        <p class="text-muted small mb-0 lh-base">{{ service.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted py-4">
+                <span>Academy services are currently being updated.</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 3. NEWS & EVENTS -->
+<section class="section-padding bg-light-mint">
+    <div class="container">
+        <div class="row g-5">
+            <!-- News Column -->
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="d-flex justify-content-between align-items-end mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-0">Latest News</h3>
+                        <p class="text-muted small mb-0">Updates from the Academy</p>
+                    </div>
+                    <a href="{% url 'news_list' %}" class="btn btn-outline-primary btn-sm rounded-pill">View All</a>
+                </div>
+
+                <div class="row g-4">
+                    {% for post in latest_news %}
+                    <div class="col-md-6">
+                        <div class="hover-card h-100 border-0 shadow-sm">
+                            {% if post.image %}
+                            <div style="height: 180px; overflow: hidden;">
+                                <img src="{{ post.image.url }}" class="w-100 h-100" style="object-fit: cover; transition: 0.5s;" alt="{{ post.title }}">
+                            </div>
+                            {% endif %}
+                            <div class="card-body p-4">
+                                <span class="badge bg-light text-secondary mb-3">{{ post.date|date:"d M Y" }}</span>
+                                <h5 class="h6 fw-bold mb-2">
+                                    <a href="{% url 'news_detail' post.slug %}" class="text-secondary stretched-link">{{ post.title }}</a>
+                                </h5>
+                                <p class="text-muted small mb-0">{{ post.content|striptags|truncatechars:70 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-light w-100">No news updates.</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Events Column -->
+            <div class="col-lg-5" data-aos="fade-left">
+                <div class="bg-white p-4 rounded-4 shadow-sm h-100 border border-light">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <h3 class="h4 fw-bold mb-0 text-secondary">Upcoming Events</h3>
+                        <a href="{% url 'calendar' %}" class="text-primary small fw-bold">Calendar <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="d-flex flex-column gap-3">
+                        {% for event in upcoming_events %}
+                        <div class="d-flex align-items-start gap-3 p-3 rounded-4 bg-light bg-opacity-50">
+                            <div class="text-center bg-white rounded-4 shadow-sm p-2" style="min-width: 70px;">
+                                <span class="d-block fw-bold text-primary h4 mb-0">{{ event.date|date:"d" }}</span>
+                                <span class="d-block small text-uppercase text-muted fw-bold" style="font-size: 0.7rem;">{{ event.date|date:"M" }}</span>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">{{ event.title }}</h6>
+                                
+                                <!-- CHANGED: Conditional Time Display -->
+                                <p class="small text-muted mb-1">
+                                    {% if event.start_time %}
+                                        <i class="far fa-clock me-1 text-primary"></i> {{ event.start_time|time:"H:i" }}
+                                    {% else %}
+                                        <i class="far fa-calendar-check me-1 text-primary"></i> All Day
+                                    {% endif %}
+                                    
+                                    <span class="mx-1">|</span> {{ event.location }}
+                                </p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted text-center py-4">No upcoming events scheduled.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 4. COMMUNITY & MEDIA SECTION -->
+{% if site_config.facebook_embed_code or site_config.featured_video_url %}
+<section class="section-padding bg-light-mint">
+    <div class="container">
+        <div class="row g-5">
+            
+            <!-- Facebook Feed Column -->
+            {% if site_config.facebook_embed_code %}
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="text-center text-lg-start mb-4">
+                    <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Social Updates</span>
+                    <h2 class="h3 fw-bold text-secondary mt-1">Facebook Feed</h2>
+                    <div class="d-flex justify-content-center justify-content-lg-start mt-3">
+                        <div style="width: 50px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-3 rounded-4 shadow-sm border border-light d-flex justify-content-center overflow-hidden">
+                    <!-- Container to force responsive iframe behavior -->
+                    <div class="facebook-responsive">
+                        {{ site_config.facebook_embed_code|safe }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if site_config.featured_video_url %}
+            <!-- Featured Video Column -->
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="text-center text-lg-start mb-4">
+                    <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Watch & Learn</span>
+                    <h2 class="h3 fw-bold text-secondary mt-1">{{ site_config.featured_video_title }}</h2>
+                    <div class="d-flex justify-content-center justify-content-lg-start mt-3">
+                        <div style="width: 50px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-2 rounded-4 shadow-lg">
+                    <div class="video-container rounded-3 overflow-hidden">
+                        <iframe src="{{ site_config.youtube_embed_url }}" 
+                                title="{{ site_config.featured_video_title }}" 
+                                frameborder="0" 
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- 5. TESTIMONIALS -->
+<section class="section-padding position-relative overflow-hidden" style="background-color: var(--secondary);">
+    
+    <!-- Background Pattern -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" 
+         style="background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3;">
+    </div>
+
+    <!-- FIXED: Watermark Icon -->
+    <!-- Changed color to rgba(255,255,255, 0.05) = 5% opacity. Reduced size to 15rem. Added z-index: 0 -->
+    <div class="position-absolute start-50 top-50 translate-middle" style="pointer-events: none; z-index: 0;">
+        <i class="fas fa-quote-right" style="font-size: 15rem; color: rgba(255, 255, 255, 0.05);"></i>
+    </div>
+
+    <!-- Content Container (z-index: 2 ensures it sits ON TOP of the icon) -->
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="text-center mb-5">
+            <span class="text-uppercase fw-bold small letter-spacing-1" style="color: var(--accent);">Community Voice</span>
+            <h2 class="display-6 fw-bold text-white mt-2">Parents' Feedback</h2>
+            <div class="mx-auto mt-3" style="width: 60px; height: 4px; background: var(--accent); border-radius: 2px;"></div>
+        </div>
+
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center">
+                        <div class="col-md-9 col-lg-8 text-center">
+                            
+                            <!-- Quote Text -->
+                            <p class="fs-4 fst-italic mb-4 lh-base font-head text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                                "{{ testimonial.quote }}"
+                            </p>
+                            
+                            <!-- Author Info -->
+                            <div class="d-flex align-items-center justify-content-center gap-3">
+                                <div class="rounded-circle" style="width: 10px; height: 10px; background-color: var(--accent);"></div>
+                                <div class="text-start">
+                                    <h5 class="fw-bold mb-0" style="color: var(--accent);">{{ testimonial.parent_name }}</h5>
+                                    {% if testimonial.child_info %}
+                                    <small class="text-white-50 text-uppercase letter-spacing-1" style="font-size: 0.75rem;">{{ testimonial.child_info }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Controls -->
+            <div class="d-flex justify-content-center gap-3 mt-5">
+                <button class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-color: rgba(255,255,255,0.3);" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border-color: rgba(255,255,255,0.3);" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. CTA SECTION -->
+<section class="py-5 bg-secondary text-white text-center position-relative overflow-hidden">
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10">
+        <!-- Optional Pattern Overlay -->
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#ffffff"/></pattern></defs><rect width="100%" height="100%" fill="url(#dots)"/></svg>
+    </div>
+    
+    <div class="container position-relative z-1">
+        <h2 class="h1 fw-bold mt-4 mb-4 text-white">Begin Your Child's Journey Today</h2>
+        <p class="lead text-white-50 mb-4">Registration is free and open for the upcoming term.</p>
+        <a href="{% url 'admissions' %}" class="btn btn-primary btn-lg px-5 shadow-lg border-0">
+            Start Application
+        </a>
+    </div>
+</section>
+
+
+{% endblock %}

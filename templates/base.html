@@ -1,0 +1,242 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %} | {{ site_config.site_name }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- ADDED: GLightbox CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Bar -->
+    <div class="top-bar py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-4">
+                <a href="tel:{{ site_config.head_teacher_phone }}" class="d-flex align-items-center gap-2">
+                    <i class="fas fa-phone-alt text-primary"></i> {{ site_config.head_teacher_phone }}
+                </a>
+                <a href="mailto:{{ site_config.email }}" class="d-none d-md-flex align-items-center gap-2">
+                    <i class="fas fa-envelope text-primary"></i> {{ site_config.email }}
+                </a>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="d-none d-lg-block"><i class="far fa-clock text-primary me-2"></i> {{ site_config.term_timings }}</span>
+                <div class="border-start border-secondary ps-3 d-flex gap-3 align-items-center">
+                    {% if site_config.facebook_link %}<a href="{{ site_config.facebook_link }}" target="_blank"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                    {% if site_config.instagram_link %}<a href="{{ site_config.instagram_link }}" target="_blank"><i class="fab fa-instagram"></i></a>{% endif %}
+                    
+                    <!-- FIXED: X (Twitter) SVG Icon -->
+                    {% if site_config.x_link %}
+                    <a href="{{ site_config.x_link }}" target="_blank" style="line-height: 0;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+                    
+                    {% if site_config.linkedin_link %}<a href="{{ site_config.linkedin_link }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                    {% if site_config.youtube_link %}<a href="{{ site_config.youtube_link }}" target="_blank"><i class="fab fa-youtube"></i></a>{% endif %}
+                    {% if site_config.whatsapp_link %}<a href="{{ site_config.whatsapp_link }}" target="_blank"><i class="fab fa-whatsapp"></i></a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top bg-white shadow-sm">
+        <div class="container">
+            <!-- Brand Logo (Left) -->
+            <a class="navbar-brand d-flex align-items-center gap-3" href="{% url 'home' %}">
+                <div class="d-flex align-items-center justify-content-center bg-light-mint rounded-circle p-2" style="width: 60px; height: 60px;">
+                    <img src="{% static 'images/logo.png' %}" 
+                        alt="Al Jannah Logo" 
+                        style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div class="lh-1">
+                    <h1 class="h5 mb-0 text-uppercase">{{ site_config.site_name }}</h1>
+                    <small class="text-secondary" style="font-size: 0.7rem; font-family: 'Lato', sans-serif; letter-spacing: 1px;">EXCELLENCE IN EDUCATION</small>
+                </div>
+            </a>
+            
+            <!-- Hamburger Button (Right) -->
+            <button class="navbar-toggler border-0 shadow-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="fas fa-bars text-secondary fa-lg"></span>
+            </button>
+            
+            <!-- Menu Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'syllabus' %}">Syllabus</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'policies' %}">Policies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'projects_list' %}">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'news_list' %}">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'calendar' %}">Calendar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a class="btn btn-primary btn-sm px-4" href="{% url 'admissions' %}">Admissions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Wrapper -->
+    <main class="flex-grow-1">
+        {% if messages %}
+        <div class="container mt-4 position-relative" style="z-index: 1050;">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-4">
+                <i class="fas fa-info-circle me-2"></i> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row g-5">
+                
+                <!-- COLUMN 1: Brand & Contact Info (Left Aligned) -->
+                <div class="col-lg-5">
+                    <h5 class="text-white mb-3">{{ site_config.site_name }}</h5>
+                    <p class="text-white-50 mb-4 lh-lg small">{{ site_config.tagline }}</p>
+                    
+                    <!-- Contact Details List -->
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-4">
+                        <!-- Address -->
+                        <li class="d-flex gap-3 text-white-50">
+                            <i class="fas fa-map-marker-alt text-primary mt-1"></i>
+                            <span class="small">{{ site_config.address }}</span>
+                        </li>
+
+                        <!-- Head Teacher Phone -->
+                        <li class="d-flex gap-3 text-white-50">
+                            <i class="fas fa-phone text-primary mt-1"></i>
+                            <div class="d-flex flex-column">
+                                <span class="small text-white">Head Teacher:</span>
+                                <span class="small">{{ site_config.head_teacher_phone }}</span>
+                            </div>
+                        </li>
+
+                        <!-- Admissions Phone -->
+                        <li class="d-flex gap-3 text-white-50">
+                            <i class="fas fa-file-invoice-dollar text-primary mt-1"></i>
+                            <div class="d-flex flex-column">
+                                <span class="small text-white">Admissions:</span>
+                                <span class="small">{{ site_config.admin_contact_phone }}</span>
+                            </div>
+                        </li>
+
+                        <!-- Email -->
+                        <li class="d-flex gap-3 text-white-50">
+                            <i class="fas fa-envelope text-primary mt-1"></i>
+                            <span class="small">{{ site_config.email }}</span>
+                        </li>
+                    </ul>
+
+                    
+                </div>
+                
+                <!-- COLUMN 2: Quick Links -->
+                <div class="col-lg-3 col-6">
+                    <h5 class="text-white mb-3">Quick Links</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="{% url 'about' %}" class="text-white-50 text-decoration-none hover-white small">About Us</a></li>
+                        <li><a href="{% url 'admissions' %}" class="text-white-50 text-decoration-none hover-white small">Admissions</a></li>
+                        <li><a href="{% url 'calendar' %}" class="text-white-50 text-decoration-none hover-white small">Calendar</a></li>
+                        <li><a href="{% url 'gallery' %}" class="text-white-50 text-decoration-none hover-white small">Gallery</a></li>
+                        <li><a href="{% url 'contact_us' %}" class="text-white-50 text-decoration-none hover-white small">Contact Us</a></li>
+                    </ul>
+                    <!-- Social Icons -->
+                    <div class="d-flex gap-3 align-items-center">
+                        {% if site_config.facebook_link %}<a href="{{ site_config.facebook_link }}" target="_blank" class="text-white-50 hover-warning"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                        {% if site_config.instagram_link %}<a href="{{ site_config.instagram_link }}" target="_blank" class="text-white-50 hover-warning"><i class="fab fa-instagram"></i></a>{% endif %}
+                        {% if site_config.x_link %}
+                        <a href="{{ site_config.x_link }}" target="_blank" class="text-white-50 hover-warning" style="line-height: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                        </a>
+                        {% endif %}
+                        {% if site_config.linkedin_link %}<a href="{{ site_config.linkedin_link }}" target="_blank" class="text-white-50 hover-warning"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                        {% if site_config.youtube_link %}<a href="{{ site_config.youtube_link }}" target="_blank" class="text-white-50 hover-warning"><i class="fab fa-youtube"></i></a>{% endif %}
+                        {% if site_config.whatsapp_link %}<a href="{{ site_config.whatsapp_link }}" target="_blank" class="text-white-50 hover-warning"><i class="fab fa-whatsapp"></i></a>{% endif %}
+                    </div>
+                </div>
+                
+                <!-- COLUMN 3: Academics & CTA -->
+                <div class="col-lg-4 col-6">
+                    <h5 class="text-white mb-3">Academics</h5>
+                    <ul class="list-unstyled d-flex flex-column gap-2 mb-4">
+                        <li><a href="{% url 'syllabus' %}" class="text-white-50 text-decoration-none hover-white small">Syllabus & Books</a></li>
+                        <li><a href="{% url 'policies' %}" class="text-white-50 text-decoration-none hover-white small">School Policies</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none hover-white small">Quran Hifdh</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none hover-white small">Islamic Studies</a></li>
+                    </ul>
+                    
+                    <!-- CTA Button -->
+                    <a href="{% url 'contact_us' %}" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm fw-bold">Get Directions</a>
+                </div>
+
+            </div>
+            
+            <div class="border-top border-white border-opacity-10 mt-5 pt-4 text-center">
+                <p class="text-white-50 small mb-0">&copy; {% now "Y" %} {{ site_config.site_name }}. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- ADDED: GLightbox JS -->
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 60
+        });
+        
+        // Initialize GLightbox
+        const lightbox = GLightbox({
+            selector: '.glightbox',
+            touchNavigation: true,
+            loop: true,
+            zoomable: true
+        });
+
+        // NEW: Global Bootstrap Tooltip Initialization
+        // This enables tooltips for Announcements and Calendar
+        document.addEventListener("DOMContentLoaded", function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+    </script>
+</body>
+</html>

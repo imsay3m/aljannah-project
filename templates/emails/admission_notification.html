@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Client Resets */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        
+        /* Main Styles */
+        body { margin: 0; padding: 0; background-color: #eef6f6; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+        .wrapper { width: 100%; table-layout: fixed; background-color: #eef6f6; padding-bottom: 40px; }
+        .card { background-color: #ffffff; margin: 0 auto; width: 100%; max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        
+        /* Header - UPDATED COLORS */
+        .header-top { background-color: #34A89E; height: 8px; width: 100%; }
+        .header-main { background-color: #12687A; padding: 30px; text-align: center; border-bottom: 1px solid #0e5260; }
+        
+        /* Section Headers */
+        .section-header { background-color: #12687A; color: white; padding: 8px 15px; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; display: inline-block; margin-bottom: 15px; }
+        
+        /* Data Styling */
+        .info-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .info-table td { padding: 8px 0; vertical-align: top; border-bottom: 1px solid #f9f9f9; }
+        .info-label { color: #888; font-size: 13px; width: 120px; padding-right: 10px; }
+        .info-val { color: #333; font-size: 15px; font-weight: 600; }
+        
+        /* Button */
+        .btn-admin { background-color: #34A89E; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; font-size: 14px; box-shadow: 0 4px 10px rgba(52, 168, 158, 0.3); }
+        .btn-admin:hover { background-color: #12687A; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <br>
+        <table class="card" align="center" cellspacing="0" cellpadding="0">
+            <!-- Colored Top Bar (Lighter Teal) -->
+            <tr><td class="header-top"></td></tr>
+            
+            <!-- Logo Area (Deep Petrol Background) -->
+            <tr>
+                <td class="header-main">
+                    <h1 style="margin: 0; color: #ffffff; font-size: 22px; letter-spacing: 1px;">Al Jannah Academy</h1>
+                    <p style="margin: 5px 0 0; color: #6CC3E8; font-weight: bold; font-size: 18px;">New Admission Application</p>
+                </td>
+            </tr>
+            
+            <!-- Content -->
+            <tr>
+                <td style="padding: 30px;">
+                    
+                    <!-- Child Section -->
+                    <div style="text-align: left;">
+                        <span class="section-header">Student Details</span>
+                    </div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Full Name:</td>
+                            <td class="info-val" style="font-size: 18px; color: #12687A;">{{ child_first_name }} {{ child_last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Date of Birth:</td>
+                            <td class="info-val">{{ dob }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Gender:</td>
+                            <td class="info-val">{{ gender }}</td>
+                        </tr>
+                    </table>
+
+                    <!-- Parent Section -->
+                    <div style="text-align: left; margin-top: 10px;">
+                        <span class="section-header" style="background-color: #34A89E;">Parent / Guardian</span>
+                    </div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Name:</td>
+                            <td class="info-val">{{ parent_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Email:</td>
+                            <td class="info-val"><a href="mailto:{{ email }}" style="color: #34A89E; text-decoration: none;">{{ email }}</a></td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Phone:</td>
+                            <td class="info-val"><a href="tel:{{ phone }}" style="color: #333; text-decoration: none;">{{ phone }}</a></td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Address:</td>
+                            <td class="info-val">{{ address }}</td>
+                        </tr>
+                    </table>
+
+                    <!-- Notes Section -->
+                    {% if notes %}
+                    <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 6px; margin-bottom: 30px;">
+                        <strong style="color: #856404; display: block; font-size: 12px; margin-bottom: 5px; text-transform: uppercase;">Medical / Additional Notes:</strong>
+                        <span style="color: #555; font-size: 14px; line-height: 1.5;">{{ notes }}</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Action Button -->
+                    <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
+                        <a href="https://aljannahacademy.com/admin/admissions/applicationsubmission/" class="btn-admin">
+                            Open Admin Panel
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+            
+            <!-- Footer -->
+            <tr>
+                <td style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;">
+                    <p style="font-size: 11px; color: #999; margin: 0;">
+                        This email was sent automatically by the Al Jannah Academy website.<br>
+                        Please ensure data privacy when handling this student information.
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

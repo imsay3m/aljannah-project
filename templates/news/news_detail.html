@@ -1,0 +1,142 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. ARTICLE HEADER -->
+<div class="bg-light-mint section-padding pb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-primary text-decoration-none fw-bold">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'news_list' %}" class="text-primary text-decoration-none fw-bold">News</a></li>
+                        <li class="breadcrumb-item active text-muted" aria-current="page">Article</li>
+                    </ol>
+                </nav>
+
+                <div class="text-center" data-aos="fade-up">
+                    <span class="badge bg-white text-secondary shadow-sm px-3 py-2 mb-3 rounded-pill fw-bold">
+                        <i class="far fa-calendar-alt me-2 text-primary"></i> {{ post.date|date:"d F Y" }}
+                    </span>
+                    <h1 class="display-5 fw-bold text-secondary mb-0">{{ post.title }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. ARTICLE CONTENT -->
+<section class="section-padding bg-white pt-0 position-relative z-1" style="margin-top: -30px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <!-- Featured Image -->
+                {% if post.image %}
+                <div class="rounded-4 shadow-lg overflow-hidden mb-5 bg-white p-2" data-aos="fade-up" data-aos-delay="100">
+                    <img src="{{ post.image.url }}" class="w-100 rounded-3" alt="{{ post.title }}" style="max-height: 500px; object-fit: cover;">
+                </div>
+                {% endif %}
+
+                <!-- Text Body -->
+                <div class="article-body text-muted lh-lg fs-5" data-aos="fade-up" data-aos-delay="200">
+                    {{ post.content|safe }}
+                </div>
+
+                <!-- Footer Navigation & Sharing -->
+                <div class="border-top border-light mt-5 pt-5 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                    
+                    <!-- Back Button -->
+                    <a href="{% url 'news_list' %}" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">
+                        <i class="fas fa-arrow-left me-2"></i> Back to News
+                    </a>
+                    
+                    <!-- Functional Share Buttons -->
+                    <div class="d-flex gap-2 align-items-center">
+                        
+                        <small class="text-muted text-uppercase fw-bold me-2">Share:</small>
+                        
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                        target="_blank" 
+                        class="btn btn-sm btn-light rounded-circle text-secondary hover-card border-0" 
+                        title="Share on Facebook"
+                        style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+
+                        <!-- WhatsApp -->
+                        <a href="https://api.whatsapp.com/send?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri }}" 
+                        target="_blank" 
+                        class="btn btn-sm btn-light rounded-circle text-secondary hover-card border-0" 
+                        title="Share on WhatsApp"
+                        style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                        target="_blank" 
+                        class="btn btn-sm btn-light rounded-circle text-secondary hover-card border-0" 
+                        title="Share on LinkedIn"
+                        style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        
+                        <!-- X (Twitter) -->
+                        <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}" 
+                        target="_blank" 
+                        class="btn btn-sm btn-light rounded-circle text-secondary hover-card border-0" 
+                        title="Share on X"
+                        style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                        </svg>
+                        </a>
+                        
+                        <!-- Copy Link Button -->
+                        <button onclick="copyToClipboard()" 
+                                class="btn btn-sm btn-light rounded-circle text-secondary hover-card border-0" 
+                                title="Copy Link" 
+                                id="copyBtn"
+                                style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0;">
+                            <i class="fas fa-link"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function copyToClipboard() {
+        // Create a temporary input element
+        var input = document.createElement("input");
+        input.value = window.location.href;
+        document.body.appendChild(input);
+        
+        // Select and copy
+        input.select();
+        document.execCommand("copy");
+        
+        // Remove element
+        document.body.removeChild(input);
+        
+        // Visual Feedback
+        var btn = document.getElementById("copyBtn");
+        var originalIcon = btn.innerHTML;
+        
+        btn.innerHTML = '<i class="fas fa-check text-success"></i>';
+        setTimeout(function() {
+            btn.innerHTML = originalIcon;
+        }, 2000);
+    }
+</script>
+
+{% endblock %}

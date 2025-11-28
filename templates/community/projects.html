@@ -1,0 +1,111 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 1. HEADER SECTION -->
+<div class="section-padding pb-0 bg-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <span class="text-primary fw-bold text-uppercase letter-spacing-1 small">Community & Charity</span>
+                <h1 class="display-5 fw-bold text-secondary mt-2 mb-3">Our Projects</h1>
+                <p class="lead text-muted w-75 mx-auto">Initiatives, support groups, and extra-curricular activities offered by Al Jannah Academy to serve the wider community.</p>
+                <div class="mt-4 d-flex justify-content-center">
+                    <div style="width: 60px; height: 4px; background: var(--primary); border-radius: 2px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. PROJECTS GRID -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row g-4">
+            {% for project in projects %}
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="hover-card h-100 border-0 shadow-sm d-flex flex-column bg-white overflow-hidden">
+                    
+                    <div class="row g-0 flex-grow-1">
+                        <!-- Image Section (Left on Desktop, Top on Mobile) -->
+                        {% if project.image %}
+                        <div class="col-md-5 position-relative">
+                            <img src="{{ project.image.url }}" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover;" alt="{{ project.title }}">
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Content Section -->
+                        <div class="col-md-{% if project.image %}7{% else %}12{% endif %} d-flex flex-column">
+                            <div class="card-body p-4">
+                                <h3 class="h4 fw-bold text-secondary mb-3">{{ project.title }}</h3>
+                                
+                                <!-- Rich Text Content styling wrapper -->
+                                <div class="text-muted small lh-lg mb-4">
+                                    {{ project.description|safe }}
+                                </div>
+                            </div>
+
+                            <!-- Action Footer (Pushed to bottom) -->
+                            <div class="mt-auto bg-light-mint p-4 border-top border-light">
+                                <div class="d-flex flex-column gap-3">
+                                    <!-- Contact Info -->
+                                    {% if project.contact_person or project.contact_number %}
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; min-width: 40px;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="lh-1">
+                                            <small class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem;">Contact</small>
+                                            <div class="fw-bold text-secondary">
+                                                {{ project.contact_person }}
+                                                {% if project.contact_number %}
+                                                 <span class="text-primary mx-1">•</span> {{ project.contact_number }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- External Action Button -->
+                                    {% if project.external_link %}
+                                    <a href="{{ project.external_link }}" target="_blank" class="btn btn-primary btn-sm w-100 rounded-pill shadow-sm">
+                                        {{ project.link_text|default:"Learn More" }} <i class="fas fa-external-link-alt ms-2"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- CHANGED: "Projects Updating" instead of generic text -->
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-light border-0 shadow-sm d-inline-block px-5 py-4">
+                    <i class="fas fa-info-circle text-primary mb-3 fa-2x"></i>
+                    <h4 class="text-secondary">Projects Updating</h4>
+                    <p class="text-muted mb-0">Community initiatives are currently being updated. Please check back soon.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 3. JOIN US BANNER -->
+<section class="py-5 bg-secondary position-relative overflow-hidden">
+    <!-- Abstract Shapes -->
+    <div class="position-absolute top-0 end-0 opacity-10 d-none d-md-block">
+        <i class="fas fa-hands-helping fa-10x text-white" style="transform: rotate(-15deg); margin-right: -50px; margin-top: -30px;"></i>
+    </div>
+    
+    <div class="container position-relative z-1 text-center">
+        <h2 class="h3 fw-bold text-white mb-3">Want to Volunteer?</h2>
+        <p class="text-white-50 mb-4 w-75 mx-auto">We are always looking for dedicated individuals to help us serve the community better.</p>
+        <a href="{% url 'contact_us' %}" class="btn btn-outline-light btn-lg px-5 rounded-pill">Get in Touch</a>
+    </div>
+</section>
+
+{% endblock %}
