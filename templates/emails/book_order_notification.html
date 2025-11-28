@@ -73,6 +73,22 @@
                             <td class="info-val">{{ reason }}</td>
                         </tr>
                     </table>
+                    <!-- Special Logic for "Selected Books" (Missing) -->
+                    {% if selected_books %}
+                    <div style="background-color: #F8FDFF; border-left: 4px solid #34A89E; padding: 15px; border-radius: 4px; margin-bottom: 25px;">
+                        <strong style="color: #12687A; display: block; font-size: 12px; margin-bottom: 8px; text-transform: uppercase;">
+                            Books Requested (Reason: Missing)
+                        </strong>
+                        <ul style="margin: 0; padding-left: 20px; color: #333; font-size: 14px;">
+                            <!-- Django template trick to split comma-separated string -->
+                            {% for book in selected_books.split|join:","|make_list %}
+                                <!-- We handle the split in Python view ideally, but here we can just display the block -->
+                            {% endfor %}
+                            <!-- Simpler approach: Just display text, user can read comma separated list -->
+                            {{ selected_books }}
+                        </ul>
+                    </div>
+                    {% endif %}
 
                     <!-- Special Logic for "Other Reason" -->
                     {% if other_reason_details %}

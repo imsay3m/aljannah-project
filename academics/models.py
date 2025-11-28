@@ -138,6 +138,12 @@ class BookOrder(models.Model):
         max_length=255, blank=True, null=True, verbose_name="If other, please specify"
     )
 
+    selected_books = models.TextField(
+        blank=True,
+        null=True,
+        help_text="List of books selected by the user (if Reason is Missing)",
+    )
+
     submitted_at = models.DateTimeField(auto_now_add=True)
     is_processed = models.BooleanField(default=False)
 

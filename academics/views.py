@@ -43,6 +43,7 @@ def syllabus_view(request):
                 "parent_email": order.parent_email,
                 "reason": order.get_reason_display(),
                 "other_reason_details": order.other_reason_details,
+                "selected_books": order.selected_books,  # ADDED THIS
             }
 
             html_content = render_to_string(

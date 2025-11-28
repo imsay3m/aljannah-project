@@ -70,7 +70,32 @@
                                     <!-- This field is hidden by default via JS -->
                                     {{ form.other_reason_details }}
                                 </div>
-
+                                <!-- NEW: MISSING BOOKS CHECKBOX AREA -->
+                                <div class="col-12" id="booksSelectionArea" style="display: none;">
+                                    <div class="bg-white p-3 rounded-3 border border-light mt-2">
+                                        <label class="form-label fw-bold small text-primary mb-3">Select the books you need:</label>
+                                        
+                                        <div class="row g-3">
+                                            {% for value, label in form.fields.selected_books_list.choices %}
+                                                <!-- Category Header -->
+                                                <div class="col-12 mt-3">
+                                                    <h6 class="text-secondary fw-bold border-bottom pb-1 mb-2 small text-uppercase">{{ value }}</h6>
+                                                </div>
+                                                <!-- Checkboxes -->
+                                                {% for id, name in label %}
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="selected_books_list" value="{{ id }}" id="id_books_{{ forloop.counter }}_{{ forloop.parentloop.counter }}">
+                                                        <label class="form-check-label small text-muted" for="id_books_{{ forloop.counter }}_{{ forloop.parentloop.counter }}">
+                                                            {{ name }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12 mt-4">
                                     <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold shadow-sm">
                                         Submit Order Request
@@ -173,27 +198,40 @@
         {% endfor %}
     </div>
 </section>
-<!-- JAVASCRIPT FOR TOGGLE LOGIC -->
+<!-- JAVASCRIPT UPDATE -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const reasonDropdown = document.getElementById('reasonDropdown');
         const otherField = document.getElementById('otherReasonField');
+        const booksArea = document.getElementById('booksSelectionArea');
 
-        function toggleOtherField() {
-            if (reasonDropdown.value === 'other') {
+        function toggleFields() {
+            const val = reasonDropdown.value;
+            
+            // 1. Handle "Other" Textbox
+            if (val === 'other') {
                 otherField.style.display = 'block';
                 otherField.required = true;
             } else {
                 otherField.style.display = 'none';
                 otherField.required = false;
-                otherField.value = ''; // Clear it if hidden
+                otherField.value = ''; 
+            }
+
+            // 2. Handle "Missing" Books Checklist
+            if (val === 'missing') {
+                booksArea.style.display = 'block';
+            } else {
+                booksArea.style.display = 'none';
+                // Uncheck all boxes if hidden
+                const checkboxes = booksArea.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => cb.checked = false);
             }
         }
 
         if (reasonDropdown) {
-            reasonDropdown.addEventListener('change', toggleOtherField);
-            // Run once on load in case of form validation errors
-            toggleOtherField();
+            reasonDropdown.addEventListener('change', toggleFields);
+            toggleFields(); // Run on load
         }
     });
 </script>
